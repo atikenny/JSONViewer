@@ -20,21 +20,25 @@
             let result = '';
 
             result += '<div class="list-container">';
-            result += '<span class="folder-icon">-</span>';
+            result += '<span class="open array-icon">[</span>';
             result += '<ul>';
 
-            JSONArray.forEach(item => {
-                result += `<li>${mapToHTML(item)}</li>`;
+            JSONArray.forEach((item, index) => {
+                result += `<li>${index !== (JSONArray.length - 1) ? `${mapToHTML(item)},` : mapToHTML(item)}</li>`;
             })
 
             result += '</ul>';
+            result += '<span class="close array-icon">]</span>';
             result += '</div>';
 
             return result;
         };
         const mapScalarToHTML = (JSONScalar) => `<span>${JSONScalar}</span>`;
         const mapObjectToHTML = (JSONObject) => {
-            let result = '<dl>';
+            let result = '';
+
+            result += '<span class="open object-icon">{</span>';
+            result += '<dl>';
 
             Object.keys(JSONObject).forEach(propKey => {
                 if (config.skipEmpty && JSONObject[propKey] === '') {
@@ -46,6 +50,7 @@
             });
 
             result += '</dl>';
+            result += '<span class="close object-icon">}</span>';
 
             return result;
         };
@@ -79,6 +84,28 @@
                     ul, dl, dd, dt {
                         padding: 0;
                         margin: 0;
+                    }
+
+                    ul {
+                        margin-left: 24px;
+                    }
+
+                    dl {
+                        overflow: hidden;
+                        margin-left: 24px;
+                    }
+
+                    dt, dd {
+                        float: left;
+                        padding: 12px;
+                    }
+
+                    dt {
+                        clear: left;
+                    }
+
+                    dt {
+                        font-weight: bold;
                     }
                 </style>
             `;
