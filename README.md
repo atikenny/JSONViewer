@@ -5,15 +5,16 @@ JSONViewer Snippet you can run in Chrome
 ## Features
 
 ### Basics
-- [x] skip empty items
+- [x] skip empty items (settings)
 - [ ] folding arrays and objects
 - [ ] show parsing errors
+- [ ] button for settings
 
 ### Styling
 - [x] inject your own stylesheet
 - [ ] dark mode
 - [ ] monokai themes
-- [ ] theme selector
+- [ ] theme selector (settings)
 
 ### Advanced
 - [ ] search input
