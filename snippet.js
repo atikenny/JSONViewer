@@ -160,7 +160,7 @@
                     }
 
                     .dark .number {
-                        color: #ad98f5;
+                        color: #beaef4;
                     }
 
                     .dark .date-time {
