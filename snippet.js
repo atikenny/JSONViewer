@@ -146,7 +146,7 @@
                     /* DARK THEME */
                     .dark {
                         background-color: #2e2a2e;
-                        color: #908f90;
+                        color: #bbbbbb;
                     }
 
                     .dark .string,
