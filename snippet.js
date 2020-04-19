@@ -21,7 +21,17 @@
     const typeUtils = (() => {
         const isNumber = (input) => typeof input === 'number';
         const isString = (input) => typeof input === 'string';
-        const isRegExp = (input) => input instanceof RegExp;
+        const isRegExp = (input) => {
+            const validString = isString(input);
+            const startsWithSlash = validString && input.substr(0, 1) === '/';
+            const modifiersStartIndex = startsWithSlash && input.lastIndexOf('/') + 1;
+            const modifiers = startsWithSlash && input.substr(input.lastIndexOf('/') + 1);
+            const withoutModifier = modifiersStartIndex && input.substring(1, modifiersStartIndex - 1);
+            const regExp = startsWithSlash && new RegExp(withoutModifier, modifiers);
+            const matchesRegExpObj = regExp && regExp.toString() === input;
+
+            return matchesRegExpObj;
+        };
         const isUrl = (input) => /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(input);
         const isUnixTimestamp = (input) => input.length === 10 && (parseInt(input, 10) == input);
         const isDate = (input) => /\d{4}-\d{2}-\d{2}|\d{2}-\d{2}-\d{4}/.test(input)
@@ -41,15 +51,15 @@
             let result = '';
 
             result += '<div class="list-container">';
-            result += '<span class="open array-icon">[</span>';
+            result += '<div class="open array-icon">[</div>';
             result += '<ul>';
 
             JSONArray.forEach((item, index) => {
-                result += `<li>${index !== (JSONArray.length - 1) ? `${mapToHTML(item)},` : mapToHTML(item)}</li>`;
+                result += `<li>${index !== (JSONArray.length - 1) ? `${mapToHTML(item)}<span class="divider">,</span>` : mapToHTML(item)}</li>`;
             })
 
             result += '</ul>';
-            result += '<span class="close array-icon">]</span>';
+            result += '<div class="close array-icon">]</div>';
             result += '</div>';
 
             return result;
@@ -101,7 +111,7 @@
         const mapObjectToHTML = (JSONObject) => {
             let result = '';
 
-            result += '<span class="open object-icon">{</span>';
+            result += '<div class="open object-icon">{</div>';
             result += '<dl>';
 
             Object.keys(JSONObject).forEach(propKey => {
@@ -149,6 +159,11 @@
                         color: #bbbbbb;
                     }
 
+                    .dark .array-icon,
+                    .dark .object-icon {
+                        color: #ff4e83;
+                    }
+
                     .dark .string,
                     .dark .unix-timestamp,
                     .dark .url a {
@@ -171,7 +186,7 @@
                     /* END OF THEMING */
 
                     body {
-                        font-size: 15px;
+                        font-size: 16px;
                         font-family: Arial;
                     }
 
@@ -208,6 +223,13 @@
 
                     .url a {
                         text-decoration: underline;
+                    }
+
+                    .array-icon,
+                    .object-icon,
+                    .divider {
+                        font-weight: bold;
+                        font-size: 18px;
                     }
                 </style>
             `;
