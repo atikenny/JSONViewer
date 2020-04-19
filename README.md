@@ -6,7 +6,7 @@ JSONViewer Snippet you can run in Chrome
 
 ### Basics
 - [x] skip empty items (settings)
-- [ ] folding arrays and objects
+- [x] folding arrays and objects
 - [ ] show parsing errors
 - [ ] button for settings
 
