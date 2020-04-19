@@ -51,15 +51,16 @@
             let result = '';
 
             result += '<div class="list-container">';
-            result += '<div class="open array-icon">[</div>';
-            result += '<ul>';
+            result += '<button class="open array-icon">[</button>';
+            result += '<ul class="content-container">';
 
-            JSONArray.forEach((item, index) => {
-                result += `<li>${index !== (JSONArray.length - 1) ? `${mapToHTML(item)}<span class="divider">,</span>` : mapToHTML(item)}</li>`;
+            JSONArray.forEach(item => {
+                result += `<li>${mapToHTML(item)}</li>`;
             })
 
             result += '</ul>';
-            result += '<div class="close array-icon">]</div>';
+            result += closedContent();
+            result += '<button class="close array-icon">]</button>';
             result += '</div>';
 
             return result;
@@ -108,11 +109,13 @@
 
             return result;
         };
+        const closedContent = () => '<span class="closed-content">...</span>';
         const mapObjectToHTML = (JSONObject) => {
             let result = '';
 
-            result += '<div class="open object-icon">{</div>';
-            result += '<dl>';
+            result += '<div class="object-container">'
+            result += '<button class="open object-icon">{</button>';
+            result += '<dl class="content-container">';
 
             Object.keys(JSONObject).forEach(propKey => {
                 if (config.skipEmpty && JSONObject[propKey] === '') {
@@ -124,7 +127,9 @@
             });
 
             result += '</dl>';
-            result += '<span class="close object-icon">}</span>';
+            result += closedContent();
+            result += '<button class="close object-icon">}</button>';
+            result += '</div>';
 
             return result;
         };
@@ -141,8 +146,22 @@
 
             return HTMLResult;
         };
+        const toggleSection = (event) => {
+            const button = event.target;
+            const elementToToggle = button.parentElement;
+
+            elementToToggle.classList.toggle('closed');
+        };
+        const attachEventListeners = () => {
+            const buttons = document.querySelectorAll('button.open, button.close');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', toggleSection);
+            });
+        };
 
         return {
+            attachEventListeners,
             mapToHTML
         };
     })();
@@ -221,6 +240,14 @@
                         font-weight: bold;
                     }
 
+                    button {
+                        background: none;
+                        border: 0;
+                        padding: 0;
+                        margin: 0;
+                        cursor: pointer;
+                    }
+
                     .url a {
                         text-decoration: underline;
                     }
@@ -230,6 +257,19 @@
                     .divider {
                         font-weight: bold;
                         font-size: 18px;
+                    }
+
+                    .closed .content-container {
+                        display: none;
+                    }
+
+                    .closed-content {
+                        display: none;
+                        margin: 0 8px;
+                    }
+
+                    .closed .closed-content {
+                        display: inline;
                     }
                 </style>
             `;
@@ -249,5 +289,6 @@
     styler.injectStylesheet();
     styler.addThemeClass();
     contentUtils.setContent(contentHTML);
+    HTMLMapper.attachEventListeners();
     console.log(contentHTML);
 })();
