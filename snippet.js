@@ -303,7 +303,18 @@
                 </style>
             `;
         };
-        const addThemeClass = () => document.body.classList.add('light');
+        const addThemeClass = () => {
+            const hasColorSchemeSupport = 'matchMedia' in window;
+            const isOSDarkMode = hasColorSchemeSupport && window.matchMedia('(prefers-color-scheme: dark)').matches
+
+            if (isOSDarkMode) {
+                document.body.classList.remove('light');
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.add('light');
+                document.body.classList.remove('dark');
+            }
+        };
 
         return {
             addThemeClass,
