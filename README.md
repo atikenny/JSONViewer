@@ -12,7 +12,7 @@ JSONViewer Snippet you can run in Chrome
 
 ### Styling
 - [x] inject your own stylesheet
-- [ ] dark mode
+- [x] dark mode
 - [x] monokai themes
 - [ ] theme selector (settings)
 
