@@ -202,6 +202,36 @@
                     }
                     /* END OF DARK THEME.*/
 
+                    /* LIGHT THEME */
+                    .light {
+                        background-color: #fef6e2;
+                        color: #213d40;
+                    }
+
+                    .light .array-icon,
+                    .light .object-icon {
+                        color: #1c5d57;
+                    }
+
+                    .light .string,
+                    .light .unix-timestamp,
+                    .light .url a {
+                        color: #4c5801;
+                    }
+
+                    .light .regexp {
+                        color: #1c5d57;
+                    }
+
+                    .light .number {
+                        color: #4d4e87;
+                    }
+
+                    .light .date-time {
+                        color: #9e2528;
+                    }
+                    /* END OF LIGHT THEME.*/
+
                     /* END OF THEMING */
 
                     body {
@@ -243,7 +273,7 @@
                     button {
                         background: none;
                         border: 0;
-                        padding: 0;
+                        padding: 4px 12px;
                         margin: 0;
                         cursor: pointer;
                     }
@@ -265,7 +295,6 @@
 
                     .closed-content {
                         display: none;
-                        margin: 0 8px;
                     }
 
                     .closed .closed-content {
@@ -274,7 +303,7 @@
                 </style>
             `;
         };
-        const addThemeClass = () => document.body.classList.add('dark');
+        const addThemeClass = () => document.body.classList.add('light');
 
         return {
             addThemeClass,
@@ -290,5 +319,5 @@
     styler.addThemeClass();
     contentUtils.setContent(contentHTML);
     HTMLMapper.attachEventListeners();
-    console.log(contentHTML);
+//     console.log(contentHTML);
 })();
